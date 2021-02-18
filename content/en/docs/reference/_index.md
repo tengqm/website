@@ -49,6 +49,10 @@ client libraries:
   * [kube-scheduler Policies](/docs/reference/scheduling/policies)
   * [kube-scheduler Profiles](/docs/reference/scheduling/config#profiles)
 
+## Config APIs
+
+* [kube-scheduler policy reference (v1)](/docs/reference/config-api/kube-scheduler-policy-config.v1/)
+
 ## Design Docs
 
 An archive of the design docs for Kubernetes functionality. Good starting points are
