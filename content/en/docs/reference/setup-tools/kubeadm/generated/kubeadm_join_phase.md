@@ -17,7 +17,7 @@ Use this command to invoke single phase of the join workflow
 <td colspan="2">-h, --help</td>
 </tr>
 <tr>
-<td></td><td style="line-height: 130%; word-wrap: break-word;">help for phase</td>
+<td></td><td style="line-height: 130%; word-wrap: break-word;"><p>help for phase</p></td>
 </tr>
 
 </tbody>
@@ -38,7 +38,7 @@ Use this command to invoke single phase of the join workflow
 <td colspan="2">--rootfs string</td>
 </tr>
 <tr>
-<td></td><td style="line-height: 130%; word-wrap: break-word;">[EXPERIMENTAL] The path to the 'real' host root filesystem.</td>
+<td></td><td style="line-height: 130%; word-wrap: break-word;"><p>[EXPERIMENTAL] The path to the 'real' host root filesystem.</p></td>
 </tr>
 
 </tbody>

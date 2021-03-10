@@ -32,28 +32,28 @@ kubeadm certs generate-csr [flags]
 <td colspan="2">--cert-dir string</td>
 </tr>
 <tr>
-<td></td><td style="line-height: 130%; word-wrap: break-word;">The path where to save the certificates</td>
+<td></td><td style="line-height: 130%; word-wrap: break-word;"><p>The path where to save the certificates</p></td>
 </tr>
 
 <tr>
 <td colspan="2">--config string</td>
 </tr>
 <tr>
-<td></td><td style="line-height: 130%; word-wrap: break-word;">Path to a kubeadm configuration file.</td>
+<td></td><td style="line-height: 130%; word-wrap: break-word;"><p>Path to a kubeadm configuration file.</p></td>
 </tr>
 
 <tr>
 <td colspan="2">-h, --help</td>
 </tr>
 <tr>
-<td></td><td style="line-height: 130%; word-wrap: break-word;">help for generate-csr</td>
+<td></td><td style="line-height: 130%; word-wrap: break-word;"><p>help for generate-csr</p></td>
 </tr>
 
 <tr>
 <td colspan="2">--kubeconfig-dir string&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Default: "/etc/kubernetes"</td>
 </tr>
 <tr>
-<td></td><td style="line-height: 130%; word-wrap: break-word;">The path where to save the kubeconfig file.</td>
+<td></td><td style="line-height: 130%; word-wrap: break-word;"><p>The path where to save the kubeconfig file.</p></td>
 </tr>
 
 </tbody>
@@ -74,7 +74,7 @@ kubeadm certs generate-csr [flags]
 <td colspan="2">--rootfs string</td>
 </tr>
 <tr>
-<td></td><td style="line-height: 130%; word-wrap: break-word;">[EXPERIMENTAL] The path to the 'real' host root filesystem.</td>
+<td></td><td style="line-height: 130%; word-wrap: break-word;"><p>[EXPERIMENTAL] The path to the 'real' host root filesystem.</p></td>
 </tr>
 
 </tbody>

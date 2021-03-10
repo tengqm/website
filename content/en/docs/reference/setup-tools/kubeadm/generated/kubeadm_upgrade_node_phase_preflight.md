@@ -21,14 +21,14 @@ kubeadm upgrade node phase preflight [flags]
 <td colspan="2">-h, --help</td>
 </tr>
 <tr>
-<td></td><td style="line-height: 130%; word-wrap: break-word;">help for preflight</td>
+<td></td><td style="line-height: 130%; word-wrap: break-word;"><p>help for preflight</p></td>
 </tr>
 
 <tr>
-<td colspan="2">--ignore-preflight-errors stringSlice</td>
+<td colspan="2">--ignore-preflight-errors strings</td>
 </tr>
 <tr>
-<td></td><td style="line-height: 130%; word-wrap: break-word;">A list of checks whose errors will be shown as warnings. Example: 'IsPrivilegedUser,Swap'. Value 'all' ignores errors from all checks.</td>
+<td></td><td style="line-height: 130%; word-wrap: break-word;"><p>A list of checks whose errors will be shown as warnings. Example: 'IsPrivilegedUser,Swap'. Value 'all' ignores errors from all checks.</p></td>
 </tr>
 
 </tbody>
@@ -49,7 +49,7 @@ kubeadm upgrade node phase preflight [flags]
 <td colspan="2">--rootfs string</td>
 </tr>
 <tr>
-<td></td><td style="line-height: 130%; word-wrap: break-word;">[EXPERIMENTAL] The path to the 'real' host root filesystem.</td>
+<td></td><td style="line-height: 130%; word-wrap: break-word;"><p>[EXPERIMENTAL] The path to the 'real' host root filesystem.</p></td>
 </tr>
 
 </tbody>

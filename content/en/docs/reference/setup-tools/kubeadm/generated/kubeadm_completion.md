@@ -59,7 +59,7 @@ source <(kubeadm completion zsh)
 <td colspan="2">-h, --help</td>
 </tr>
 <tr>
-<td></td><td style="line-height: 130%; word-wrap: break-word;">help for completion</td>
+<td></td><td style="line-height: 130%; word-wrap: break-word;"><p>help for completion</p></td>
 </tr>
 
 </tbody>
@@ -80,7 +80,7 @@ source <(kubeadm completion zsh)
 <td colspan="2">--rootfs string</td>
 </tr>
 <tr>
-<td></td><td style="line-height: 130%; word-wrap: break-word;">[EXPERIMENTAL] The path to the 'real' host root filesystem.</td>
+<td></td><td style="line-height: 130%; word-wrap: break-word;"><p>[EXPERIMENTAL] The path to the 'real' host root filesystem.</p></td>
 </tr>
 
 </tbody>
