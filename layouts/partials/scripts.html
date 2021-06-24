@@ -3,7 +3,7 @@
 <script src="/js/bootstrap-4.6.1.min.js" integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2" crossorigin="anonymous"></script>
 <script src="{{ "js/script.js" | relURL }}"></script>
 <script async src="/js/mermaid-8.13.4.min.js" integrity="sha384-5hHNvPeMrNH14oM3IcQofDoBhiclNK3g2+hnEinKzQ07C4AliMeVpnvxuiwEGpaO" crossorigin="anonymous"></script>
-
+script src="/js/dark-mode-switch.min.js" crossorigin="anonymous"></script>
 {{ $jsBase := resources.Get "js/base.js" }}
 {{ $jsAnchor := resources.Get "js/anchor.js" }}
 {{ $jsSearch := resources.Get "js/search.js" | resources.ExecuteAsTemplate "js/search.js" .Site.Home }}

@@ -452,6 +452,9 @@ main {
 }
 
 // blockquotes and callouts
+[data-theme="dark"] .callout {
+    color: #eee;
+}
 
 body {
   .alert {
@@ -467,6 +470,7 @@ body {
     margin-top: 0.5em;
     margin-bottom: 0.5em;
   }
+
   // Set minimum width and radius for alert color
   .alert {
       border-left-width: calc(max(0.5em, 4px));
