@@ -10,9 +10,7 @@ content_type: task
 
 This page explains how to debug Pods running (or crashing) on a Node.
 
-
 ## {{% heading "prerequisites" %}}
-
 
 * Your {{< glossary_tooltip text="Pod" term_id="pod" >}} should already be
   scheduled and running. If your Pod is not yet running, start with [Debugging
@@ -23,7 +21,7 @@ This page explains how to debug Pods running (or crashing) on a Node.
 
 ## Using `kubectl describe pod` to fetch details about pods
 
-For this example we'll use a Deployment to create two pods, similar to the earlier example.
+For this task we'll use a Deployment to create two pods.
 
 {{< codenew file="application/nginx-with-request.yaml" >}}
 
@@ -37,7 +35,7 @@ kubectl apply -f https://k8s.io/examples/application/nginx-with-request.yaml
 deployment.apps/nginx-deployment created
 ```
 
-Check pod status by following command:
+Check pod status using the following command:
 
 ```shell
 kubectl get pods
@@ -49,7 +47,8 @@ nginx-deployment-67d4bdd6f5-cx2nz   1/1     Running   0          13s
 nginx-deployment-67d4bdd6f5-w6kd7   1/1     Running   0          13s
 ```
 
-We can retrieve a lot more information about each of these pods using `kubectl describe pod`. For example:
+We can retrieve a lot more information about each of these pods using `kubectl describe pod`.
+For example:
 
 ```shell
 kubectl describe pod nginx-deployment-67d4bdd6f5-w6kd7
@@ -117,22 +116,37 @@ Events:
   Normal  Started    30s   kubelet            Started container nginx
 ```
 
-Here you can see configuration information about the container(s) and Pod (labels, resource requirements, etc.), as well as status information about the container(s) and Pod (state, readiness, restart count, events, etc.).
+Here you can see configuration information about the container(s) and Pod (labels, resource
+requirements, etc.), as well as status information about the container(s) and Pod (state,
+readiness, restart count, events, etc.).
 
-The container state is one of Waiting, Running, or Terminated. Depending on the state, additional information will be provided -- here you can see that for a container in Running state, the system tells you when the container started.
+The container state is one of `Waiting`, `Running`, or `Terminated`. Depending on the state, additional
+information will be provided. Here you can see that for a container in `Running` state, the system
+tells you when the container was started.
 
-Ready tells you whether the container passed its last readiness probe. (In this case, the container does not have a readiness probe configured; the container is assumed to be ready if no readiness probe is configured.)
+Ready tells you whether the container passed its last readiness check.
+In this case, the container does not have a readiness probe configured; the container is assumed
+to be ready if no readiness probe is configured.
 
-Restart Count tells you how many times the container has been restarted; this information can be useful for detecting crash loops in containers that are configured with a restart policy of 'always.'
+"Restart Count" tells you how many times the container has been restarted; this information can be
+useful for detecting crash loops in containers that are configured with a restart policy of `Always`.
 
-Currently the only Condition associated with a Pod is the binary Ready condition, which indicates that the pod is able to service requests and should be added to the load balancing pools of all matching services.
+Currently the only Condition associated with a Pod is the binary `Ready` condition, which indicates that
+the Pod is able to service requests and should be added to the load balancing pools of all matching services.
 
-Lastly, you see a log of recent events related to your Pod. "From" indicates the component that is logging the event. "Reason" and "Message" tell you what happened.
-
+Lastly, you see a log of recent events related to your Pod. "From" indicates the component that is
+logging the event. "Reason" and "Message" tell you what happened.
 
 ## Example: debugging Pending Pods
 
-A common scenario that you can detect using events is when you've created a Pod that won't fit on any node. For example, the Pod might request more resources than are free on any node, or it might specify a label selector that doesn't match any nodes. Let's say we created the previous Deployment with 5 replicas (instead of 2) and requesting 600 millicores instead of 500, on a four-node cluster where each (virtual) machine has 1 CPU. In that case one of the Pods will not be able to schedule. (Note that because of the cluster addon pods such as fluentd, skydns, etc., that run on each node, if we requested 1000 millicores then none of the Pods would be able to schedule.)
+A common scenario that you can detect using events is when you've created a Pod that won't fit on
+any node. For example, the Pod might request more resources than are free on any node, or it might
+specify a label selector that doesn't match any nodes. Let's say we created the previous
+Deployment with 5 replicas (instead of 2) and requesting 600 millicores instead of 500, on a
+four-node cluster where each node has 1 CPU. In that case one of the Pods will not be
+able to be scheduled. Note that because of the cluster addon Pods such as fluentd, DNS server, etc.,
+that run on each node, if we requested 1000 millicores then none of the Pods would be able to
+be scheduled.
 
 ```shell
 kubectl get pods
@@ -147,57 +161,64 @@ nginx-deployment-1370807587-fg172   0/1       Pending   0          1m
 nginx-deployment-1370807587-fz9sd   0/1       Pending   0          1m
 ```
 
-To find out why the nginx-deployment-1370807587-fz9sd pod is not running, we can use `kubectl describe pod` on the pending Pod and look at its events:
+To find out why the nginx-deployment-1370807587-fz9sd pod is not running, we can use
+`kubectl describe pod` on the pending Pod and look at its events:
 
 ```shell
 kubectl describe pod nginx-deployment-1370807587-fz9sd
 ```
 
 ```none
-  Name:		nginx-deployment-1370807587-fz9sd
-  Namespace:	default
-  Node:		/
-  Labels:		app=nginx,pod-template-hash=1370807587
-  Status:		Pending
+  Name:         nginx-deployment-1370807587-fz9sd
+  Namespace:    default
+  Node:         /
+  Labels:       app=nginx,pod-template-hash=1370807587
+  Status:       Pending
   IP:
-  Controllers:	ReplicaSet/nginx-deployment-1370807587
+  Controllers:  ReplicaSet/nginx-deployment-1370807587
   Containers:
     nginx:
-      Image:	nginx
-      Port:	80/TCP
+      Image:    nginx
+      Port:     80/TCP
       QoS Tier:
-        memory:	Guaranteed
-        cpu:	Guaranteed
+        memory: Guaranteed
+        cpu:    Guaranteed
       Limits:
-        cpu:	1
-        memory:	128Mi
+        cpu:    1
+        memory: 128Mi
       Requests:
-        cpu:	1
-        memory:	128Mi
+        cpu:    1
+        memory: 128Mi
       Environment Variables:
   Volumes:
     default-token-4bcbi:
-      Type:	Secret (a volume populated by a Secret)
-      SecretName:	default-token-4bcbi
+      Type:    Secret (a volume populated by a Secret)
+      SecretName: default-token-4bcbi
   Events:
-    FirstSeen	LastSeen	Count	From			        SubobjectPath	Type		Reason			    Message
-    ---------	--------	-----	----			        -------------	--------	------			    -------
-    1m		    48s		    7	    {default-scheduler }			        Warning		FailedScheduling	pod (nginx-deployment-1370807587-fz9sd) failed to fit in any node
+    FirstSeen  LastSeen  Count  From                 SubobjectPath Type     Reason           Message
+    ---------  --------  -----  ----                 ------------- -------- ------           -------
+    1m         48s       7      {default-scheduler }               Warning  FailedScheduling pod (nginx-deployment-1370807587-fz9sd) failed to fit in any node
   fit failure on node (kubernetes-node-6ta5): Node didn't have enough resource: CPU, requested: 1000, used: 1420, capacity: 2000
   fit failure on node (kubernetes-node-wul5): Node didn't have enough resource: CPU, requested: 1000, used: 1100, capacity: 2000
 ```
 
-Here you can see the event generated by the scheduler saying that the Pod failed to schedule for reason `FailedScheduling` (and possibly others).  The message tells us that there were not enough resources for the Pod on any of the nodes.
+Here you can see the event generated by the scheduler saying that the Pod failed to schedule for
+reason `FailedScheduling` (and possibly others). The message tells us that there were not enough
+resources for the Pod on any of the nodes.
 
-To correct this situation, you can use `kubectl scale` to update your Deployment to specify four or fewer replicas. (Or you could leave the one Pod pending, which is harmless.)
+To correct this situation, you can use `kubectl scale` to update your Deployment to specify four
+or fewer replicas. (Or you could leave the one Pod pending, which is harmless.)
 
-Events such as the ones you saw at the end of `kubectl describe pod` are persisted in etcd and provide high-level information on what is happening in the cluster. To list all events you can use
+Events such as the ones you saw at the end of `kubectl describe pod` are persisted in etcd and
+provide high-level information on what is happening in the cluster. To list all events you can use
 
 ```shell
 kubectl get events
 ```
 
-but you have to remember that events are namespaced. This means that if you're interested in events for some namespaced object (e.g. what happened with Pods in namespace `my-namespace`) you need to explicitly provide a namespace to the command:
+But you have to remember that events are namespaced. This means that if you're interested in
+events for some namespaced object (e.g. what happened with Pods in namespace `my-namespace`) you
+need to explicitly provide a namespace to the command:
 
 ```shell
 kubectl get events --namespace=my-namespace
@@ -205,13 +226,17 @@ kubectl get events --namespace=my-namespace
 
 To see events from all namespaces, you can use the `--all-namespaces` argument.
 
-In addition to `kubectl describe pod`, another way to get extra information about a pod (beyond what is provided by `kubectl get pod`) is to pass the `-o yaml` output format flag to `kubectl get pod`. This will give you, in YAML format, even more information than `kubectl describe pod`--essentially all of the information the system has about the Pod. Here you will see things like annotations (which are key-value metadata without the label restrictions, that is used internally by Kubernetes system components), restart policy, ports, and volumes.
+In addition to `kubectl describe pod`, another way to get extra information about a pod (beyond
+what is provided by `kubectl get pod`) is to pass the `-o yaml` output format flag to `kubectl get
+pod`. This will give you, in YAML format, even more information than `kubectl describe
+pod`--essentially all of the information the system has about the Pod. Here you will see things
+like annotations, restart policy, ports, and volumes.
 
 ```shell
 kubectl get pod nginx-deployment-1006230814-6winp -o yaml
 ```
 
-```yaml
+```console
 apiVersion: v1
 kind: Pod
 metadata:
@@ -339,7 +364,8 @@ First, look at the logs of the affected container:
 kubectl logs ${POD_NAME} ${CONTAINER_NAME}
 ```
 
-If your container has previously crashed, you can access the previous container's crash log with:
+If your container has previously crashed, you can access the previous container's
+crash log with:
 
 ```shell
 kubectl logs --previous ${POD_NAME} ${CONTAINER_NAME}
@@ -357,7 +383,8 @@ kubectl exec ${POD_NAME} -c ${CONTAINER_NAME} -- ${CMD} ${ARG1} ${ARG2} ... ${AR
 ```
 
 {{< note >}}
-`-c ${CONTAINER_NAME}` is optional. You can omit it for Pods that only contain a single container.
+`-c ${CONTAINER_NAME}` is optional.
+You can omit it for Pods that only contain a single container.
 {{< /note >}}
 
 As an example, to look at the logs from a running Cassandra pod, you might run
@@ -373,8 +400,7 @@ arguments to `kubectl exec`, for example:
 kubectl exec -it cassandra -- sh
 ```
 
-For more details, see [Get a Shell to a Running Container](
-/docs/tasks/debug/debug-application/get-shell-running-container/).
+For more details, see [Get a Shell to a Running Container](/docs/tasks/debug/debug-application/get-shell-running-container/).
 
 ## Debugging with an ephemeral debug container {#ephemeral-container}
 
@@ -383,8 +409,7 @@ For more details, see [Get a Shell to a Running Container](
 {{< glossary_tooltip text="Ephemeral containers" term_id="ephemeral-container" >}}
 are useful for interactive troubleshooting when `kubectl exec` is insufficient
 because a container has crashed or a container image doesn't include debugging
-utilities, such as with [distroless images](
-https://github.com/GoogleContainerTools/distroless).
+utilities, such as with [distroless images](https://github.com/GoogleContainerTools/distroless).
 
 ### Example debugging using ephemeral containers {#ephemeral-container-example}
 
@@ -406,19 +431,19 @@ because there is no shell in this container image.
 kubectl exec -it ephemeral-demo -- sh
 ```
 
-```
+```console
 OCI runtime exec failed: exec failed: container_linux.go:346: starting container process caused "exec: \"sh\": executable file not found in $PATH": unknown
 ```
 
 You can instead add a debugging container using `kubectl debug`. If you
 specify the `-i`/`--interactive` argument, `kubectl` will automatically attach
-to the console of the Ephemeral Container.
+to the console of the ephemeral Container.
 
 ```shell
 kubectl debug -it ephemeral-demo --image=busybox:1.28 --target=ephemeral-demo
 ```
 
-```
+```console
 Defaulting debug container name to debugger-8xzrl.
 If you don't see a command prompt, try pressing enter.
 / #
@@ -426,9 +451,8 @@ If you don't see a command prompt, try pressing enter.
 
 This command adds a new busybox container and attaches to it. The `--target`
 parameter targets the process namespace of another container. It's necessary
-here because `kubectl run` does not enable [process namespace sharing](
-/docs/tasks/configure-pod-container/share-process-namespace/) in the pod it
-creates.
+here because `kubectl run` does not enable [process namespace sharing](/docs/tasks/configure-pod-container/share-process-namespace/)
+in the Pod it creates.
 
 {{< note >}}
 The `--target` parameter must be supported by the {{< glossary_tooltip
@@ -444,7 +468,7 @@ You can view the state of the newly created ephemeral container using `kubectl d
 kubectl describe pod ephemeral-demo
 ```
 
-```
+```none
 ...
 Ephemeral Containers:
   debugger-8xzrl:
@@ -497,7 +521,7 @@ new Ubuntu container for debugging:
 kubectl debug myapp -it --image=ubuntu --share-processes --copy-to=myapp-debug
 ```
 
-```
+```console
 Defaulting debug container name to debugger-w7xmf.
 If you don't see a command prompt, try pressing enter.
 root@myapp-debug:/#
@@ -529,13 +553,13 @@ add a debugging flag or because the application is crashing.
 To simulate a crashing application, use `kubectl run` to create a container
 that immediately exits:
 
-```
+```shell
 kubectl run --image=busybox:1.28 myapp -- false
 ```
 
 You can see using `kubectl describe pod myapp` that this container is crashing:
 
-```
+```none
 Containers:
   myapp:
     Image:         busybox
@@ -552,11 +576,11 @@ Containers:
 You can use `kubectl debug` to create a copy of this Pod with the command
 changed to an interactive shell:
 
-```
+```shell
 kubectl debug myapp -it --copy-to=myapp-debug --container=myapp -- sh
 ```
 
-```
+```console
 If you don't see a command prompt, try pressing enter.
 / #
 ```
@@ -587,14 +611,14 @@ additional utilities.
 
 As an example, create a Pod using `kubectl run`:
 
-```
+```shell
 kubectl run myapp --image=busybox:1.28 --restart=Never -- sleep 1d
 ```
 
 Now use `kubectl debug` to make a copy and change its container image
 to `ubuntu`:
 
-```
+```shell
 kubectl debug myapp --copy-to=myapp-debug --set-image=*=ubuntu
 ```
 
@@ -618,7 +642,7 @@ an interactive shell on a Node using `kubectl debug`, run:
 kubectl debug node/mynode -it --image=ubuntu
 ```
 
-```
+```console
 Creating debugging pod node-debugger-mynode-pdx84 with container debugger on node mynode.
 If you don't see a command prompt, try pressing enter.
 root@ek8s:/#
