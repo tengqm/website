@@ -302,12 +302,65 @@ for fields within Kubernetes objects.
 For a {{< glossary_tooltip term_id="CustomResourceDefinition" text="CustomResourceDefinition" >}},
 you can set these markers when you define the custom resource.
 
-| Golang marker   | OpenAPI extension            | Possible values                                  | Description                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-| --------------- | ---------------------------- | ------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `//+listType`   | `x-kubernetes-list-type`     | `atomic`/`set`/`map`                             | Applicable to lists. `set` applies to lists that include only scalar elements. These elements must be unique. `map` applies to lists of nested types only. The key values (see `listMapKey`) must be unique in the list. `atomic` can apply to any list. If configured as `atomic`, the entire list is replaced during merge. At any point in time, a single manager owns the list. If `set` or `map`, different managers can manage entries separately. |
-| `//+listMapKey` | `x-kubernetes-list-map-keys` | List of field names, e.g. `["port", "protocol"]` | Only applicable when `+listType=map`. A list of field names whose values uniquely identify entries in the list. While there can be multiple keys, `listMapKey` is singular because keys need to be specified individually in the Go type. The key fields must be scalars.                                                                                                                                                                                |
-| `//+mapType`    | `x-kubernetes-map-type`      | `atomic`/`granular`                              | Applicable to maps. `atomic` means that the map can only be entirely replaced by a single manager. `granular` means that the map supports separate managers updating individual fields.                                                                                                                                                                                                                                                                  |
-| `//+structType` | `x-kubernetes-map-type`      | `atomic`/`granular`                              | Applicable to structs; otherwise same usage and OpenAPI annotation as `//+mapType`.                                                                                                                                                                                                                                                                                                                                                                      |
+<table>
+<caption></caption>
+<thead>
+<tr>
+  <th>Golang marker</th>
+  <th>OpenAPI extension</th>
+  <th>Possible values</th>
+  <th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>//+listType</code></td>
+  <td><code>x-kubernetes-list-type</code></tt>
+  <td><code>atomic</code>/<code>set</code>/<code>map</code></td>
+  <td>
+    Applicable to lists. <code>set</code> applies to lists that include only scalar elements.
+    These elements must be unique. <code>map</code> applies to lists of nested types only.
+    The key values (see <code>listMapKey</code>) must be unique in the list.
+    <code>atomic</code> can apply to any list.
+    If configured as <code>atomic</code>, the entire list is replaced during merge.
+    At any point in time, a single manager owns the list.
+    If <code>set</code> or <code>map</code>, different managers can manage entries separately.
+  </td>
+</tr>
+<tr>
+  <td><code>//+listMapKey</code></td>
+  <td><code>x-kubernetes-list-map-keys</code></td>
+  <td>
+    List of field names, e.g. <code>["port", "protocol"]</code>
+  </td>
+  <td>
+    Only applicable when <code>+listType=map</code>.
+    A list of field names whose values uniquely identify entries in the list.
+    While there can be multiple keys, <code>listMapKey</code> is singular
+    because keys need to be specified individually in the Go type.
+    The key fields must be scalars.                                                                                                                                                                                |
+  </td>
+</tr>
+<tr>
+  <td><code>//+mapType</code></td>
+  <td><code>x-kubernetes-map-type</code></td>
+  <td><code>atomic<code>/<code>granular</code></td>
+  <td>
+    Applicable to maps. <code>atomic</code> means that the map
+    can only be entirely replaced by a single manager.
+    <code>granular</code> means that the map supports separate managers updating individual fields.
+  </td>
+</tr>
+<tr>
+  <td><code>//+structType</code></td>
+  <td><code>x-kubernetes-map-type</code></td>
+  <td><code>atomic</code>/<code>granular</code></td>
+  <td>
+    Applicable to structs; otherwise same usage and OpenAPI annotation as <code>//+mapType</code>.
+  </td>
+</tr>
+</tbody>
+</table>
 
 If `listType` is missing, the API server interprets a
 `patchStrategy=merge` marker as a `listType=map` and the
@@ -578,7 +631,9 @@ Apply can send partially specified objects as YAML as the body of a `PATCH` requ
 to the URI of a resource.  When applying a configuration, you should always include all the
 fields that are important to the outcome (such as a desired state) that you want to define.
 
-All JSON messages are valid YAML. Therefore, in addition to using YAML request bodies for Server-Side Apply requests, you can also use JSON request bodies, as they are also valid YAML.
+All JSON messages are valid YAML.
+Therefore, in addition to using YAML request bodies for Server-Side Apply requests,
+you can also use JSON request bodies, as they are also valid YAML.
 In either case, use the media type `application/apply-patch+yaml` for the HTTP request.
 
 ### Access control and permissions {#rbac-and-permissions}
