@@ -21,7 +21,6 @@ aliases:
     - nate-double-u
     - reylejano
     - salaxander
-    - tengqm
   sig-docs-localization-owners: # Admins for localization content
     - a-mccarthy
     - divya-mohan0209
@@ -30,7 +29,6 @@ aliases:
     - reylejano
     - salaxander
     - seokho-son
-    - tengqm
   sig-docs-localization-reviewers: # PR reviews for localization changes
     - a-mccarthy
     - divya-mohan0209
@@ -39,7 +37,6 @@ aliases:
     - reylejano
     - salaxander
     - seokho-son
-    - tengqm
   sig-docs-bn-owners: # Admins for Bengali content
     - asem-hamid
     - Imtiaz1234
@@ -162,7 +159,6 @@ aliases:
     - natalisucks
     - reylejano
     - salaxander
-    - tengqm
   sig-docs-zh-owners: # Admins for Chinese content
     - chenrui333
     - howieyuen
